@@ -16,6 +16,16 @@ Go 환경이 구성된 경우:
 go install github.com/juchanei/killport@latest
 ```
 
+설치 후 생성된 바이너리가 `$HOME/go/bin`(Go 1.17 이상) 또는 `$GOPATH/bin`에 위치합니다. 해당 디렉터리가 PATH에 포함되어 있어야 터미널에서 `killport` 명령어를 사용할 수 있습니다.
+
+예시:
+
+```bash
+export PATH="$PATH:$HOME/go/bin"
+```
+
+위 명령어를 `~/.zshrc` 또는 `~/.bash_profile` 등에 추가해두면, 터미널을 새로 열 때마다 자동으로 적용됩니다.
+
 ## 사용법
 
 ```bash
