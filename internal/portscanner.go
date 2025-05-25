@@ -17,8 +17,12 @@ type ProcessInfo struct {
 // macOS 환경에서 lsof 사용
 func FindProcessByPort(port int) (ProcessInfo, error) {
 	cmd := exec.Command("lsof", "-i", ":"+strconv.Itoa(port), "-sTCP:LISTEN", "-n", "-P")
-	out, err := cmd.Output()
+	out, err := cmd.CombinedOutput()
 	if err != nil {
+		// lsof가 exit code 1이고 출력(표준/에러 모두)이 완전히 비었으면 "프로세스 없음" 상황으로 간주
+		if _, ok := err.(*exec.ExitError); ok && strings.TrimSpace(string(out)) == "" {
+			return ProcessInfo{}, nil
+		}
 		return ProcessInfo{}, fmt.Errorf("lsof 실행 실패: %w", err)
 	}
 	return ParseLsofOutput(string(out))
@@ -28,8 +32,9 @@ func FindProcessByPort(port int) (ProcessInfo, error) {
 func ParseLsofOutput(output string) (ProcessInfo, error) {
 	var proc ProcessInfo
 	lines := strings.Split(output, "\n")
-	if len(lines) < 2 {
-		return proc, fmt.Errorf("lsof 결과 없음")
+	if len(lines) < 2 || strings.TrimSpace(lines[1]) == "" {
+		// 프로세스 없음: 에러가 아니라 PID 0 반환
+		return proc, nil
 	}
 	fields := strings.Fields(lines[1])
 	if len(fields) < 2 {
