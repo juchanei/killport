@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/spf13/cobra"
 	"fmt"
 	"os"
 	"strconv"
 
-	"github.com/user/port-killer/internal"
+	"github.com/spf13/cobra"
+
+	"github.com/juchanei/killport/internal"
 )
 
 func main() {
@@ -59,4 +60,3 @@ func main() {
 	rootCmd.Flags().BoolVarP(&verbose, "verbose", "v", false, "상세 로그 출력")
 	rootCmd.Execute()
 }
-

@@ -1,4 +1,4 @@
-module github.com/user/port-killer
+module github.com/juchanei/killport
 
 go 1.24.2
 

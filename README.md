@@ -13,7 +13,7 @@ lsof 명령어가 설치되어 있어야 합니다.
 Go 환경이 구성된 경우:
 
 ```bash
-go install github.com/사용자명/killport@latest
+go install github.com/juchanei/killport@latest
 ```
 
 ## 사용법
